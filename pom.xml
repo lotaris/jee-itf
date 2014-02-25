@@ -78,7 +78,7 @@
 				<plugins>
 					<plugin>
 						<groupId>com.lotaris.maven.rox.plugins</groupId>
-						<artifactId>maven-rox-junit-plugin</artifactId>
+						<artifactId>rox-junit-maven-plugin</artifactId>
 						<version>${lotaris.rox.maven.junit.version}</version>
 						<executions>
 							<execution>
