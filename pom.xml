@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.lotaris.test.frameworks</groupId>
-	<artifactId>lotaris-j2ee-itf</artifactId>
-	<version>2.1.0-SNAPSHOT</version>
+	<artifactId>jee-itf</artifactId>
+	<version>2.1.0</version>
 
 	<packaging>jar</packaging>
 
-	<name>Lotaris J2EE Integration Test Framework (ITF)</name>
+	<name>Java EE Integration Test Framework (ITF)</name>
 
 	<properties>
 		<lotaris.rox.client.junit.version>2.0.0</lotaris.rox.client.junit.version>
@@ -24,7 +24,7 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
-					<encoding>UTF-8</encoding>	
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 
@@ -56,7 +56,7 @@
 			</testResource>
 		</testResources>
 	</build>
-		
+
 	<profiles>
 		<profile>
 			<id>release</id>
@@ -89,7 +89,7 @@
 						</executions>
 						<configuration>
 							<classpathDependencyExcludes>
-								<classpathDependencyExclude>javaee:javaee-api</classpathDependencyExclude>	
+								<classpathDependencyExclude>javaee:javaee-api</classpathDependencyExclude>
 							</classpathDependencyExcludes>
 						</configuration>
 					</plugin>
