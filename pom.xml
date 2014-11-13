@@ -7,10 +7,31 @@
 	<groupId>com.lotaris.test.frameworks</groupId>
 	<artifactId>jee-itf</artifactId>
 	<version>2.1.1-SNAPSHOT</version>
-
 	<packaging>jar</packaging>
 
 	<name>Java EE Integration Test Framework (ITF)</name>
+	<description>Custom integration test framework to run tests directly into an application container.</description>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Laurent Prevost</name>
+			<email>laurent.prevost@lotaris.com</email>
+			<organization>https://github.com/lotaris</organization>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git@github.com:lotaris/jee-itf.git</connection>
+		<developerConnection>scm:git:git@github.com:lotaris/jee-itf.git</developerConnection>
+		<url>https://github.com/lotaris/jee-itf</url>
+	</scm>
 
 	<properties>
 		<lotaris.rox.client.junit.version>2.0.0</lotaris.rox.client.junit.version>
