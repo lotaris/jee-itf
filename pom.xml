@@ -6,11 +6,13 @@
 
 	<groupId>com.lotaris.test.frameworks</groupId>
 	<artifactId>jee-itf</artifactId>
-	<version>2.1.1-SNAPSHOT</version>
+	<version>2.1.1</version>
 	<packaging>jar</packaging>
 
 	<name>Java EE Integration Test Framework (ITF)</name>
 	<description>Custom integration test framework to run tests directly into an application container.</description>
+
+	<url>https://github.com/lotaris/jee-itf</url>
 
 	<licenses>
 		<license>
@@ -30,43 +32,140 @@
 	<scm>
 		<connection>scm:git:git@github.com:lotaris/jee-itf.git</connection>
 		<developerConnection>scm:git:git@github.com:lotaris/jee-itf.git</developerConnection>
-		<url>https://github.com/lotaris/jee-itf</url>
+		<url>git@github.com:lotaris/jee-itf.git</url>
 	</scm>
 
 	<properties>
-		<lotaris.rox.client.junit.version>2.0.0</lotaris.rox.client.junit.version>
-		<lotaris.rox.maven.junit.version>2.0.2</lotaris.rox.maven.junit.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>				
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>			
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
-					<encoding>UTF-8</encoding>
+					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.1</version>
 				<configuration>
-					<encoding>UTF-8</encoding>
+					<encoding>${project.build.sourceEncoding}</encoding>
 					<source>1.7</source>
 					<target>1.7</target>
+					<compilerArgs>
+						<arg>-Xlint</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.13</version>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
 				<configuration>
-					<skip>true</skip>
+					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.16</version>
+				<configuration>
+						<classpathDependencyExcludes>
+							<classpathDependencyExclude>javaee:javaee-api</classpathDependencyExclude>
+						</classpathDependencyExcludes>
+						<properties>
+						<property>
+							<name>listener</name>
+							<value>com.lotaris.rox.client.junit.RoxListener</value>
+						</property>
+					</properties>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.1</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.0</version>
 			</plugin>
 		</plugins>
 
@@ -87,32 +186,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>versions-maven-plugin</artifactId>
-						<version>2.0</version>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
-			<id>rox</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.lotaris.maven.rox.plugins</groupId>
-						<artifactId>rox-junit-maven-plugin</artifactId>
-						<version>${lotaris.rox.maven.junit.version}</version>
-						<executions>
-							<execution>
-								<goals>
-									<goal>junit</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<classpathDependencyExcludes>
-								<classpathDependencyExclude>javaee:javaee-api</classpathDependencyExclude>
-							</classpathDependencyExcludes>
-						</configuration>
+						<version>2.1</version>
 					</plugin>
 				</plugins>
 			</build>
@@ -158,9 +232,10 @@
 		<dependency>
 			<groupId>com.lotaris.rox.client</groupId>
 			<artifactId>rox-client-junit</artifactId>
-			<version>${lotaris.rox.client.junit.version}</version>
+			<version>2.2.1</version>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
