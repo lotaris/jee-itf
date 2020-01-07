@@ -1,3 +1,7 @@
+### :warning: Unmaintained.
+
+---
+
 # jee-itf
 
 > Java EE Integration Test Framework. Integration tests run inside the application container with all the transaction management available.
